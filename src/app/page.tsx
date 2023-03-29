@@ -1,5 +1,4 @@
-import Button from "./Button";
-
+import GooglePayButton from "./GooglePayButton";
 export default function App() {
   return (
     <>
@@ -13,7 +12,7 @@ export default function App() {
       </header>
       <main className="dark:bg-gray-800 flex-1 dark:text-white flex justify-center items-center">
         {/* Display the button component here */}
-        <Button>Pay Now</Button>
+        <GooglePayButton />
       </main>
     </>
   );
