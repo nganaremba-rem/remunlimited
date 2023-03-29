@@ -1,4 +1,5 @@
 "use client";
+import { v4 } from "uuid";
 interface PaymentParams {
   amount: number;
   currency: string;
@@ -14,13 +15,13 @@ const PaymentButton: React.FC<PaymentParams> = ({
     const packageName = "com.google.android.apps.nbu.paisa.user";
     const paymentData = {
       pa: upiId,
-      pn: "Your Merchant Name",
-      tr: "123456ABCDEF", // Unique transaction ID
+      pn: "RemUnlimited",
+      tr: v4(), // Unique transaction ID
       tn: "Payment for goods/services",
       am: `${amount}.${currency}`, // Payment amount and currency
       cu: currency,
-      url: "https://www.yourwebsite.com", // Your website URL
-      mc: "1234", // Merchant Category Code (MCC)
+      url: "https://remunlimited.vercel.app", // Your website URL
+      //   mc: "1234", // Merchant Category Code (MCC)
     };
     const scheme = `upi://pay?${encodeURIComponent(
       JSON.stringify(paymentData)
