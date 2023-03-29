@@ -17,17 +17,20 @@ const PaymentButton: React.FC<PaymentParams> = ({
       pa: upiId,
       pn: "RemUnlimited",
       tr: v4(), // Unique transaction ID
-      tn: "Payment for goods/services",
+      tn: "Shija JioFiber Recharge Payment",
       am: `${amount}.${currency}`, // Payment amount and currency
       cu: currency,
       url: "https://remunlimited.vercel.app", // Your website URL
+      mode: "UPI",
       //   mc: "1234", // Merchant Category Code (MCC)
     };
-    const scheme = `upi://pay?${encodeURIComponent(
-      JSON.stringify(paymentData)
-    )}`;
+    const data = encodeURIComponent(JSON.stringify(paymentData));
 
-    window.location.href = `intent://scan/#Intent;scheme=${scheme};package=${packageName};end;`;
+    // Construct the intent URL with the encoded parameters
+    const intentUrl = `intent://upi/pay?${data}#Intent;scheme=upi;package=${packageName};S.browser_fallback_url=${paymentData.url};end`;
+
+    // window.location.href = `intent://scan/#Intent;scheme=${scheme};package=${packageName};end;`;
+    window.location.href = intentUrl;
   };
 
   return <button onClick={handlePayment}>Pay with Google Pay</button>;
