@@ -1,39 +1,37 @@
 "use client";
-
-function isGooglePayInstalled(): boolean {
-  const userAgent = navigator.userAgent;
-  return userAgent.indexOf("Android") > -1 && userAgent.indexOf("Chrome") > -1;
+interface PaymentParams {
+  amount: number;
+  currency: string;
+  upiId: string;
 }
 
-function openGooglePay(amount: string): void {
-  const packageName = "com.google.android.apps.nbu.paisa.user";
-  const paymentData = {
-    transactionId: "12345",
-    totalPriceStatus: "FINAL",
-    totalPrice: amount,
-    currencyCode: "INR",
-    merchantId: "YOUR_MERCHANT_ID",
+const PaymentButton: React.FC<PaymentParams> = ({
+  amount,
+  currency,
+  upiId,
+}) => {
+  const handlePayment = () => {
+    const packageName = "com.google.android.apps.nbu.paisa.user";
+    const paymentData = {
+      pa: upiId,
+      pn: "Your Merchant Name",
+      tr: "123456ABCDEF", // Unique transaction ID
+      tn: "Payment for goods/services",
+      am: `${amount}.${currency}`, // Payment amount and currency
+      cu: currency,
+      url: "https://www.yourwebsite.com", // Your website URL
+      mc: "1234", // Merchant Category Code (MCC)
+    };
+    const scheme = `upi://pay?${encodeURIComponent(
+      JSON.stringify(paymentData)
+    )}`;
+
+    window.location.href = `intent://scan/#Intent;scheme=${scheme};package=${packageName};end;`;
   };
-  const scheme = `intent://pay/#Intent;scheme=https;package=${packageName};S.payload=${encodeURIComponent(
-    JSON.stringify(paymentData)
-  )};end;`;
 
-  window.location.href = scheme;
-}
+  return <button onClick={handlePayment}>Pay with Google Pay</button>;
+};
 
-function handleClick(amount: string): void {
-  if (isGooglePayInstalled()) {
-    openGooglePay(amount);
-  } else {
-    alert("Please install the Google Pay app to proceed.");
-  }
-}
-
-export default function MyButton() {
-  return (
-    <div>
-      <h1>Nganaremba</h1>
-      <button onClick={() => handleClick("100")}>Pay with Google Pay</button>
-    </div>
-  );
+export default function PaymentButtonCus() {
+  return <PaymentButton amount={100} currency="INR" upiId="nganaremba@paytm" />;
 }
