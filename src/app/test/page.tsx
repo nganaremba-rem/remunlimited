@@ -13,21 +13,21 @@ const PaymentButton: React.FC<PaymentParams> = ({
 }) => {
   const handlePayment = () => {
     const packageName = "com.google.android.apps.nbu.paisa.user";
-    const paymentData = {
-      pa: upiId,
-      pn: "RemUnlimited",
-      tr: v4(), // Unique transaction ID
-      tn: "Shija JioFiber Recharge Payment",
-      am: `${amount}.${currency}`, // Payment amount and currency
-      cu: currency,
-      url: "https://remunlimited.vercel.app", // Your website URL
-      mode: "UPI",
-      //   mc: "1234", // Merchant Category Code (MCC)
-    };
-    const data = encodeURIComponent(JSON.stringify(paymentData));
+    // Replace the placeholders with your own transaction details
+    const vpa = encodeURIComponent(upiId);
+    const name = encodeURIComponent("RemUnlimited");
+    const transId = encodeURIComponent(v4());
+    const am = encodeURIComponent(amount);
+    const cur = encodeURIComponent(currency);
+    const note = encodeURIComponent("WiFi Recharge");
+    const mode = encodeURIComponent("UPI");
 
     // Construct the intent URL with the encoded parameters
-    const intentUrl = `intent://upi/pay?${data}#Intent;scheme=upi;package=${packageName};S.browser_fallback_url=${paymentData.url};end`;
+    const intentUrl = `intent://upi/pay?pa=${vpa}&pn=${name}&tr=${transId}&am=${am}&cu=${cur}&tn=${note}&mode=${mode}#Intent;scheme=upi;package=${packageName};S.browser_fallback_url=https://remunlimited.vercel.app;end`;
+
+    // Redirect the user to the intent URL to open Google Pay
+
+    console.log(intentUrl);
 
     // window.location.href = `intent://scan/#Intent;scheme=${scheme};package=${packageName};end;`;
     window.location.href = intentUrl;
