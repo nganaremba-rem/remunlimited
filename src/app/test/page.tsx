@@ -6,7 +6,7 @@ function isGooglePayInstalled(): boolean {
 }
 
 function openGooglePay(amount: string): void {
-  const packageName = "com.google.android.apps.walletnfcrel";
+  const packageName = "com.google.android.apps.nbu.paisa.user";
   const paymentData = {
     transactionId: "12345",
     totalPriceStatus: "FINAL",
